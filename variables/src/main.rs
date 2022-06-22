@@ -1,3 +1,4 @@
+// String, IU(8, 32, 64, 128, size), F(64, 32)
 const THREE_HOURS_IN_SECONDS: u32 = 60 * 60 * 3;
 fn main() {
     let mut x = 5;
