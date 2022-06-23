@@ -1,12 +1,16 @@
+use rand::Rng;
+use std::cmp::Ordering;
 use std::io;
+
 fn main() {
     println!("Project 1:");
     println!("1. For fibonacci:");
     println!("2. Temprature conversion");
     println!("3. Christmas song:");
-    println!("4. Exit:");
+    println!("4. Guess the number game.:");
+    println!("5. Exit:");
     loop {
-        println!("Choose (1, 2, 3):");
+        println!("Choose (1, 2, 3, 4, 5):");
         let mut choice = String::new();
         io::stdin().read_line(&mut choice).expect("not number");
         let choice: i32 = match choice.trim().parse() {
@@ -17,7 +21,8 @@ fn main() {
             1 => run_fibo(),
             2 => run_tempo(),
             3 => christmas_song(),
-            4 => break,
+            4 => guess_the_number(),
+            5 => break,
             _ => continue,
         };
     }
@@ -31,16 +36,16 @@ fn run_fibo() {
         Err(_) => 1,
     };
     fibo(num + 1);
-    println!("{}th term is {}", num, fib(num + 1));
+    println!("{}th term is {}", num, fib(num));
 }
 
 fn fibo(n: i32) {
     if n == 1 {
         println!("{}", n);
     } else {
-        let mut f0: i32 = 0;
-        let mut f1: i32 = 1;
-        let mut fnth: i32;
+        let mut f0: u128 = 0;
+        let mut f1: u128 = 1;
+        let mut fnth: u128;
         println!("0. {}", f0);
         println!("1. {}", f1);
         for i in 2..n {
@@ -52,9 +57,10 @@ fn fibo(n: i32) {
     }
 }
 
-fn fib(x: i32) -> i32 {
+fn fib(x: i32) -> u128 {
     if x <= 1 {
-        return x;
+        let number: u128 = x.try_into().unwrap();
+        return number;
     }
     return fib(x - 1) + fib(x - 2);
 }
@@ -101,6 +107,37 @@ fn christmas_song() {
             2 => println!("{} something.", i),
             1 => println!("{} something.", i),
             _ => println!("Er wrong song."),
+        }
+    }
+}
+
+fn guess_the_number() {
+    println!("Guess the number");
+
+    let secret_number: u32 = rand::thread_rng().gen_range(1..101);
+
+    println!("Secret number: {}", secret_number);
+
+    loop {
+        println!("Enter a number.");
+
+        let mut guess = String::new();
+
+        io::stdin().read_line(&mut guess).expect("Fail");
+
+        let guess: u32 = match guess.trim().parse() {
+            Ok(num) => num,
+            Err(_) => continue,
+        };
+        println!("Your guess is: {}", guess);
+
+        match guess.cmp(&secret_number) {
+            Ordering::Less => println!("Too small"),
+            Ordering::Greater => println!("Too large!"),
+            Ordering::Equal => {
+                println!("You win!");
+                break;
+            }
         }
     }
 }
