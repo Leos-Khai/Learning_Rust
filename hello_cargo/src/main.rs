@@ -1,7 +1,11 @@
+use hello_cargo::{hello::{self, helloworld}, plant::seed};
+
 fn main() {
     println!("Hello, world!");
     println!("Basketball, Cat");
-    loop {
-        println!("infinite");
-    }
+    //garden::goodbyeworld();
+    //garden::helloworld();
+    helloworld();
+    hello::goodbye();
+    seed();
 }
