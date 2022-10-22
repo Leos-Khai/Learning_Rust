@@ -31,16 +31,16 @@ fn run_fibo() {
     println!("Choose a nth number you want to get the fibonacci number of:");
     let mut num = String::new();
     io::stdin().read_line(&mut num).expect("Not a number");
-    let num: i32 = match num.trim().parse() {
+    let num: u32 = match num.trim().parse() {
         Ok(num) => num,
         Err(_) => 1,
     };
-    fibo(num + 1);
+    fibo(num);
     println!("{}th term is {}", num, fib(num));
 }
 
-fn fibo(n: i32) {
-    if n == 1 {
+fn fibo(n: u32) {
+    if n <= 2 {
         println!("{}", n);
     } else {
         let mut f0: u128 = 0;
@@ -48,7 +48,7 @@ fn fibo(n: i32) {
         let mut fnth: u128;
         println!("0. {}", f0);
         println!("1. {}", f1);
-        for i in 2..n {
+        for i in 2..n+1 {
             fnth = f0 + f1;
             println!("{}. {}", i, fnth);
             f0 = f1;
@@ -57,10 +57,9 @@ fn fibo(n: i32) {
     }
 }
 
-fn fib(x: i32) -> u128 {
-    if x <= 1 {
-        let number: u128 = x.try_into().unwrap();
-        return number;
+fn fib(x: u32) -> u32 {
+    if x < 2 {
+        return x;
     }
     return fib(x - 1) + fib(x - 2);
 }
